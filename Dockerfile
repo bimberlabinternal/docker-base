@@ -88,13 +88,3 @@ ENV CELLTYPIST_FOLDER=/tmp
 # NOTE: this is also added to support running as non-root. celltypist needs to write in ~/
 RUN mkdir /userHome && chmod -R 777 /userHome
 ENV HOME=/userHome
-
-# NOTE: secret is used to pass a github token to avoid GitHub API rate limit issues
-RUN --mount=type=secret,id=GITHUB_PAT \
-    cd /RDiscvr \
-    && export GITHUB_PAT="$(cat /run/secrets/GITHUB_PAT)" \
-    && echo "GH: $GITHUB_PAT" \
-    && Rscript -e "BiocManager::install(ask = F, upgrade = 'always');" \
-    && R CMD build . \
-    && R CMD INSTALL --build *.tar.gz \
-    && rm -Rf /tmp/downloaded_packages/ /tmp/*.rds
