@@ -11,6 +11,8 @@ ENV CRAN=https://packagemanager.posit.co/cran/__linux__/focal/latest
 RUN /bin/sh -c /rocker_scripts/install_R_source.sh \
   && /bin/sh -c /rocker_scripts/setup_R.sh
 
+ENV PIP_NO_CACHE_DIR=1
+
 # NOTE: inkscape and librsvg2-bin installed for CoNGA
 # NOTE: locales / locales-all added due to errors with install_deps() and special characters in the DESCRIPTION file for niaid/dsb
 RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rstudio.com/cran/__linux__/focal/latest';options(repos = r);rm(r)})" >> ~/.Rprofile \
@@ -101,4 +103,5 @@ RUN echo -e "export R_VERSION=$R_VERSION \\" > /environmentExport.sh \
     && echo -e "export ANNOTATION_HUB_CACHE=$ANNOTATION_HUB_CACHE \\" >> /environmentExport.sh \
     && echo -e "export EXPERIMENT_HUB_CACHE=$EXPERIMENT_HUB_CACHE \\" >> /environmentExport.sh \
     && echo -e "export BFC_CACHE=$BFC_CACHE \\" >> /environmentExport.sh \
+    && echo -e "export PIP_NO_CACHE_DIR=$PIP_NO_CACHE_DIR \\" >> /environmentExport.sh \
     && echo -e "export CELLTYPIST_FOLDER=$CELLTYPIST_FOLDER" >> /environmentExport.sh
