@@ -85,6 +85,20 @@ ENV BFC_CACHE=/BiocFileCache
 
 ENV CELLTYPIST_FOLDER=/tmp
 
-# NOTE: this is also added to support running as non-root. celltypist needs to write in ~/
-RUN mkdir /userHome && chmod -R 777 /userHome
-ENV HOME=/userHome
+# NOTE: this is also added to support running as non-root. celltypist needs to write in ~/. This might be superceded by CELLTYPIST_FOLDER
+#RUN mkdir /userHome && chmod -R 777 /userHome
+#ENV HOME=/userHome
+
+# Create file hold environment vars, to be loaded in downstream images:
+RUN echo -e "export R_VERSION=$R_VERSION \\" > environmentExport.sh \
+    && echo -e "export R_BIOC_VERSION=$R_BIOC_VERSION \\" >> environmentExport.sh \
+    && echo -e "export CRAN=$CRAN \\" >> environmentExport.sh \
+    && echo -e "export RETICULATE_PYTHON=$RETICULATE_PYTHON \\" >> environmentExport.sh \
+    && echo -e "export NUMBA_CACHE_DIR=$NUMBA_CACHE_DIR\\" >> environmentExport.sh \
+    && echo -e "export MPLCONFIGDIR=$MPLCONFIGDIR \\" >> environmentExport.sh \
+    && echo -e "export CONGA_PNG_TO_SVG_UTILITY=$CONGA_PNG_TO_SVG_UTILITY \\" >> environmentExport.sh \
+    && echo -e "export USE_GMMDEMUX_SEED=$USE_GMMDEMUX_SEED \\" >> environmentExport.sh \
+    && echo -e "export ANNOTATION_HUB_CACHE=$ANNOTATION_HUB_CACHE \\" >> environmentExport.sh \
+    && echo -e "export EXPERIMENT_HUB_CACHE=$EXPERIMENT_HUB_CACHE \\" >> environmentExport.sh \
+    && echo -e "export BFC_CACHE=$BFC_CACHE \\" >> environmentExport.sh \
+    && echo -e "export CELLTYPIST_FOLDER=$CELLTYPIST_FOLDER" >> environmentExport.sh
