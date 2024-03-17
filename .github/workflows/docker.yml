@@ -5,7 +5,7 @@ on:
     - cron:  "0 3 * * *"
   push:
     branches:
-      - master
+      - main
   repository_dispatch:
     types: [docker]
 jobs:
@@ -53,7 +53,7 @@ jobs:
           build-args: |
             "GH_PAT=${{ secrets.PAT }}"
           pull: true
-          push: ${{github.ref == 'refs/heads/master'}}
+          push: ${{github.ref == 'refs/heads/main'}}
           tags: ghcr.io/bimberlabinternal/discvr-base:nightly,ghcr.io/bimberlabinternal/discvr-base:latest
           labels: |
             ${{ steps.docker_meta.outputs.labels }}
