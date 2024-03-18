@@ -2,7 +2,7 @@ name: Build Docker
 on:
   workflow_dispatch:
   schedule:
-    - cron:  "0 3 * * *"
+    - cron:  "0 22 * * *"
   push:
     branches:
       - main
@@ -60,4 +60,31 @@ jobs:
             org.opencontainers.image.title=discvr-base
             org.opencontainers.image.description=The base docker image for various R packages
 
+      - name: Trigger cellhasR Docker
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: bimberlab/cellhashR
+          event-type: docker
+
+      - name: Trigger CellMembrane Docker
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: bimberlabinternal/CellMembrane
+          event-type: docker
+
+      - name: Trigger RIRA Docker
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: bimberlabinternal/RIRA
+          event-type: docker
+
+      - name: Trigger Rdiscvr Docker
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PAT }}
+          repository: bimberlabinternal/Rdiscvr
+          event-type: docker
 
