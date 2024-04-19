@@ -67,7 +67,8 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
     && mkdir /dockerHomeDir && chmod 777 /dockerHomeDir \
     # This is to avoid the numba 'cannot cache function' error, such as: https://github.com/numba/numba/issues/5566
     && mkdir /numba_cache && chmod -R 777 /numba_cache \
-    && mkdir /mpl_cache && chmod -R 777 /mpl_cache
+    && mkdir /mpl_cache && chmod -R 777 /mpl_cache \
+    && mkdir /inkscape && chmod -R 777 /inkscape
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
@@ -76,6 +77,7 @@ ENV NUMBA_CACHE_DIR=/numba_cache
 ENV MPLCONFIGDIR=/mpl_cache
 
 ENV CONGA_PNG_TO_SVG_UTILITY=inkscape
+ENV INKSCAPE_PROFILE_DIR=/inkscape
 ENV USE_GMMDEMUX_SEED=1
 
 # Create location for BioConductor AnnotationHub/ExperimentHub caches:
