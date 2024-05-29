@@ -36,7 +36,7 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         libxml2-dev \
         libxslt-dev \
     && python3 -m pip install --upgrade pip \
-    && pip3 install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn \
+    && pip3 install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg \
     # Install conga:
     && mkdir /conga \
     && cd /conga \
