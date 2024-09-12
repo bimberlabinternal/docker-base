@@ -36,7 +36,9 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         libxml2-dev \
         libxslt-dev \
     && python3 -m pip install --upgrade pip \
-    && pip3 install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg \
+    # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
+    && python3 -m pip uninstall igraph \
+    && python3 -m pip install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
     # Install conga:
     && mkdir /conga \
     && cd /conga \
