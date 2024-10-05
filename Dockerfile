@@ -29,8 +29,10 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         git \
         libxml2-dev \
         libxslt-dev \
-        libgdal-dev \
+        libgdal-dev \	
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
+    # NOTE: added to fix issues with sf package. Can probably be dropped once we migrate to a non-github version
+    && apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev \
     && Rscript -e "remotes::install_github('r-spatial/sf')" \
     # TODO: this is to fix the as_cholmod_sparse' not provided by package 'Matrix' errors. This should ultimately be removed
     && Rscript -e "install.packages('irlba', type='source', force=TRUE)" \
