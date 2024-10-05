@@ -13,6 +13,7 @@ RUN /bin/sh -c /rocker_scripts/install_R_source.sh \
 
 # NOTE: inkscape and librsvg2-bin installed for CoNGA
 # NOTE: locales / locales-all added due to errors with install_deps() and special characters in the DESCRIPTION file for niaid/dsb
+# NOTE: libgdal-dev and 'sf' added due to: https://github.com/r-spatial/sf/issues/2436
 RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rstudio.com/cran/__linux__/focal/latest';options(repos = r);rm(r)})" >> ~/.Rprofile \
     && apt-get update -y \
     && apt-get upgrade -y \
@@ -30,6 +31,7 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         libxslt-dev \
         libgdal-dev \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix', 'sf'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
+    && Rscript -e "remotes::install_github("r-spatial/sf")" \
     # TODO: this is to fix the as_cholmod_sparse' not provided by package 'Matrix' errors. This should ultimately be removed
     && Rscript -e "install.packages('irlba', type='source', force=TRUE)" \
     && echo "local({options(repos = BiocManager::repositories('https://packagemanager.rstudio.com/cran/__linux__/focal/latest'))})" >> ~/.Rprofile \
