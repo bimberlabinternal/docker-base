@@ -12,6 +12,7 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
     && apt-get install -y \
         libhdf5-dev \
         python3-full \
+        python3-pip \
         libpython3-dev \
         inkscape \
         librsvg2-bin \
@@ -24,7 +25,6 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         libgdal-dev \
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
-    && python3 -m ensurepip --upgrade \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
     # NOTE: added to fix issues with sf package. Can probably be dropped once we migrate to a non-github version
     && apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev \
@@ -35,12 +35,11 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
     # NOTE: this was added to avoid the build dying if this downloads a binary built on a later R version
     && echo "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true');" >> ~/.Rprofile \
     && Rscript -e "print(version)" \
-    && python3 -m pip install --upgrade pip \
     # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710
-    && python3 -m pip install "numpy<2.0.0" \
+    && python3 -m pip install --user "numpy<2.0.0" \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph \
-    && python3 -m pip install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
+    && python3 -m pip install --user umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
     # Install conga:
     && mkdir /conga \
     && cd /conga \
