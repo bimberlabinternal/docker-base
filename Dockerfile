@@ -7,6 +7,7 @@ ARG GH_PAT='NOT_SET'
 # NOTE: inkscape and librsvg2-bin installed for CoNGA
 # NOTE: locales / locales-all added due to errors with install_deps() and special characters in the DESCRIPTION file for niaid/dsb
 # NOTE: libgdal-dev and 'sf' added due to: https://github.com/r-spatial/sf/issues/2436
+# NOTE: libicu-dev added for stringi error
 RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rstudio.com/cran/__linux__/focal/latest';options(repos = r);rm(r)})" >> ~/.Rprofile \
     && apt-get update -y \
     && apt-get upgrade -y \
@@ -24,6 +25,7 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         libxml2-dev \
         libxslt-dev \
         libgdal-dev \
+        libicu-dev \
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
