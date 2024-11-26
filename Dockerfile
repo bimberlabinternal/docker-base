@@ -28,7 +28,7 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         libicu-dev \
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
-    && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix', 'stringi), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
+    && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix', 'stringi'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
     # NOTE: added to fix issues with sf package. Can probably be dropped once we migrate to a non-github version
     && apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev \
     && Rscript -e "remotes::install_github('r-spatial/sf')" \
