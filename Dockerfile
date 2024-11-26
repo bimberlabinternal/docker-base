@@ -11,9 +11,8 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
     && apt-get upgrade -y \
     && apt-get install -y \
         libhdf5-dev \
-        libpython3-dev \
         python3-full \
-        python3-pip \
+        libpython3-dev \
         inkscape \
         librsvg2-bin \
         locales \
@@ -23,6 +22,8 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         libxml2-dev \
         libxslt-dev \
         libgdal-dev \
+    # This avoids the 'error: externally-managed-environment' issue
+    && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
     # NOTE: added to fix issues with sf package. Can probably be dropped once we migrate to a non-github version
     && apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev \
