@@ -12,6 +12,7 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
     && apt-get install -y \
         libhdf5-dev \
         libpython3-dev \
+        python3-full \
         python3-pip \
         inkscape \
         librsvg2-bin \
