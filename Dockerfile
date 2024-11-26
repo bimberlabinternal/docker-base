@@ -1,5 +1,7 @@
 # Note: this is the last base version supporting ubuntu focal, not jammy
 FROM rocker/rstudio:latest
+ENV R_VERSION=4.4.0
+ENV R_BIOC_VERSION=3.20
 
 ARG GH_PAT='NOT_SET'
 
