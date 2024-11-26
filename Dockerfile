@@ -1,15 +1,7 @@
 # Note: this is the last base version supporting ubuntu focal, not jammy
-FROM rocker/rstudio:4.2.1
+FROM rocker/rstudio:latest
 
 ARG GH_PAT='NOT_SET'
-
-## Redo the R installation, since we need a base image using focal, but updated R version:
-# This should be removed in favor of choosing a better base image once Exacloud supports jammy
-ENV R_VERSION=4.4.0
-ENV R_BIOC_VERSION=3.19
-ENV CRAN=https://packagemanager.posit.co/cran/__linux__/focal/latest
-RUN /bin/sh -c /rocker_scripts/install_R_source.sh \
-  && /bin/sh -c /rocker_scripts/setup_R.sh
 
 # NOTE: inkscape and librsvg2-bin installed for CoNGA
 # NOTE: locales / locales-all added due to errors with install_deps() and special characters in the DESCRIPTION file for niaid/dsb
@@ -29,7 +21,7 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         git \
         libxml2-dev \
         libxslt-dev \
-        libgdal-dev \	
+        libgdal-dev \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
     # NOTE: added to fix issues with sf package. Can probably be dropped once we migrate to a non-github version
     && apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev \
