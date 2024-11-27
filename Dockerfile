@@ -6,7 +6,7 @@ ARG GH_PAT='NOT_SET'
 # NOTE: inkscape and librsvg2-bin installed for CoNGA
 # NOTE: locales / locales-all added due to errors with install_deps() and special characters in the DESCRIPTION file for niaid/dsb
 # NOTE: libgdal-dev and 'sf' added due to: https://github.com/r-spatial/sf/issues/2436
-# NOTE: libicu-dev and libicu66 added for stringi error
+# NOTE: libicu-dev added for stringi error
 RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y \
