@@ -23,6 +23,7 @@ RUN apt-get update -y \
         libgdal-dev \
         libicu-dev \
         libglpk-dev \
+        libbz2-dev \
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
@@ -44,6 +45,13 @@ RUN apt-get update -y \
     && cd ../ \
     && pip3 install -e . \
     && cd / \
+    ##  Add Bioconductor system dependencies
+    && export BC_BRANCH=`echo $R_BIOC_VERSION | sed 's/\./_/'` \
+    && mkdir /bioconductor && cd /bioconductor \
+    && wget -O install_bioc_sysdeps.sh https://raw.githubusercontent.com/Bioconductor/bioconductor_docker/RELEASE_${BC_BRANCH}/bioc_scripts/install_bioc_sysdeps.sh \
+    && bash ./install_bioc_sysdeps.sh $R_BIOC_VERSION \
+    && cd / \
+    && rm -Rf /bioconductor \
     # For SDA, see: https://jmarchini.org/software/
     && wget -O /bin/sda_static_linux https://www.dropbox.com/sh/chek4jkr28qnbrj/AADPy1qQlm3jsHPmPdNsjSx2a/bin/sda_static_linux?dl=1 \
     && chmod +x /bin/sda_static_linux \
