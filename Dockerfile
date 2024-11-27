@@ -1,11 +1,9 @@
-FROM rocker/rstudio:latest
-ENV R_BIOC_VERSION=3.20
+FROM bioconductor/bioconductor_docker:latest
 
 ARG GH_PAT='NOT_SET'
 
 # NOTE: inkscape and librsvg2-bin installed for CoNGA
 # NOTE: locales / locales-all added due to errors with install_deps() and special characters in the DESCRIPTION file for niaid/dsb
-# NOTE: libicu-dev added for stringi error
 RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y \
@@ -26,16 +24,12 @@ RUN apt-get update -y \
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
-    # TODO: this is to fix the as_cholmod_sparse' not provided by package 'Matrix' errors. This should ultimately be removed
-    && Rscript -e "install.packages('irlba', type='source', force=TRUE)" \
     && echo "local({options(repos = BiocManager::repositories())})" >> ~/.Rprofile \
     # NOTE: this was added to avoid the build dying if this downloads a binary built on a later R version
     && echo "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true');" >> ~/.Rprofile \
     && Rscript -e "print(version)" \
     # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710
     && python3 -m pip install --user "numpy<2.0.0" \
-    # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
-    && python3 -m pip uninstall igraph \
     && python3 -m pip install --user umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
     # Install conga:
     && mkdir /conga \
@@ -46,13 +40,6 @@ RUN apt-get update -y \
     && cd ../ \
     && pip3 install -e . \
     && cd / \
-    ##  Add Bioconductor system dependencies
-    && export BC_BRANCH=`echo $R_BIOC_VERSION | sed 's/\./_/'` \
-    && mkdir /bioconductor && cd /bioconductor \
-    && wget -O install_bioc_sysdeps.sh https://raw.githubusercontent.com/Bioconductor/bioconductor_docker/RELEASE_${BC_BRANCH}/bioc_scripts/install_bioc_sysdeps.sh \
-    && bash ./install_bioc_sysdeps.sh $R_BIOC_VERSION \
-    && cd / \
-    && rm -Rf /bioconductor \
     # For SDA, see: https://jmarchini.org/software/
     && wget -O /bin/sda_static_linux https://www.dropbox.com/sh/chek4jkr28qnbrj/AADPy1qQlm3jsHPmPdNsjSx2a/bin/sda_static_linux?dl=1 \
     && chmod +x /bin/sda_static_linux \
