@@ -1,4 +1,5 @@
-FROM bioconductor/bioconductor_docker:latest
+FROM rocker/rstudio:latest
+ENV R_BIOC_VERSION=3.20
 
 ARG GH_PAT='NOT_SET'
 
