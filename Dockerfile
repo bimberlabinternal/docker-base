@@ -1,4 +1,3 @@
-# Note: this is the last base version supporting ubuntu focal, not jammy
 FROM rocker/rstudio:latest
 ENV R_BIOC_VERSION=3.20
 
@@ -8,8 +7,7 @@ ARG GH_PAT='NOT_SET'
 # NOTE: locales / locales-all added due to errors with install_deps() and special characters in the DESCRIPTION file for niaid/dsb
 # NOTE: libgdal-dev and 'sf' added due to: https://github.com/r-spatial/sf/issues/2436
 # NOTE: libicu-dev and libicu66 added for stringi error
-RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rstudio.com/cran/__linux__/focal/latest';options(repos = r);rm(r)})" >> ~/.Rprofile \
-    && apt-get update -y \
+RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y \
         libhdf5-dev \
@@ -26,10 +24,11 @@ RUN echo "local({r <- getOption('repos') ;r['CRAN'] = 'https://packagemanager.rs
         libxslt-dev \
         libgdal-dev \
         libicu-dev \
-        libicu66 \
+        libicu \
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
-    && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix', 'stringi'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
+    && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
+    && Rscript -e "install.packages(c('stringi')" \
     # NOTE: added to fix issues with sf package. Can probably be dropped once we migrate to a non-github version
     && apt-get install -y libudunits2-dev libgdal-dev libgeos-dev libproj-dev \
     && Rscript -e "remotes::install_github('r-spatial/sf')" \
