@@ -91,3 +91,6 @@ ENV CELLTYPIST_FOLDER=/tmp
 # NOTE: this is also added to support running as non-root. celltypist needs to write in ~/. This might be superceded by CELLTYPIST_FOLDER
 #RUN mkdir /userHome && chmod -R 777 /userHome
 #ENV HOME=/userHome
+
+# Added for podman support:
+ENTRYPOINT ["/bin/bash", "-c", "-l"]
