@@ -32,10 +32,10 @@ RUN apt-get update -y \
     && echo "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true');" >> ~/.Rprofile \
     && Rscript -e "print(version)" \
     # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710
-    && python3 -m pip install --user "numpy<2.0.0" \
+    && python3 -m pip install "numpy<2.0.0" \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph \
-    && python3 -m pip install --user umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
+    && python3 -m pip install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
     # Install conga:
     && mkdir /conga \
     && cd /conga \
