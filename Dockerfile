@@ -93,4 +93,4 @@ ENV CELLTYPIST_FOLDER=/tmp
 #ENV HOME=/userHome
 
 # Added for podman support:
-ENTRYPOINT ["/bin/bash", "-c", "-l"]
+ENTRYPOINT ["/bin/bash"]
