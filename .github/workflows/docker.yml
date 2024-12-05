@@ -57,7 +57,8 @@ jobs:
             org.opencontainers.image.title=discvr-base
             org.opencontainers.image.description=The base docker image for various R packages
 
-      - name: Trigger cellhasR Docker
+      - name: Trigger cellhashR Docker
+        if: github.event_name != 'pull_request'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT }}
@@ -65,6 +66,7 @@ jobs:
           event-type: docker
 
       - name: Trigger CellMembrane Docker
+        if: github.event_name != 'pull_request'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT }}
@@ -72,13 +74,15 @@ jobs:
           event-type: docker
 
       - name: Trigger RIRA Docker
+        if: github.event_name != 'pull_request'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT }}
-          repository: bimberlabinternal/RIRA
+          repository: bimberlab/RIRA
           event-type: docker
 
       - name: Trigger Rdiscvr Docker
+        if: github.event_name != 'pull_request'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.PAT }}
