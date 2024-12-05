@@ -24,6 +24,7 @@ RUN apt-get update -y \
         libicu-dev \
         libglpk-dev \
         libbz2-dev \
+	cargo \
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
