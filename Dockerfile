@@ -33,7 +33,7 @@ RUN apt-get update -y \
     && echo "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true');" >> ~/.Rprofile \
     && Rscript -e "print(version)" \
     # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
-    && apt-get uninstall python3-numpy \
+    && apt-get remove --purge python3-numpy \
     && python3 -m pip install "numpy<2.0.0" \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph \
