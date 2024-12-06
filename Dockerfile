@@ -24,7 +24,7 @@ RUN apt-get update -y \
         libicu-dev \
         libglpk-dev \
         libbz2-dev \
-	cargo \
+	    cargo \
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
@@ -32,11 +32,12 @@ RUN apt-get update -y \
     # NOTE: this was added to avoid the build dying if this downloads a binary built on a later R version
     && echo "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true');" >> ~/.Rprofile \
     && Rscript -e "print(version)" \
-    # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710
+    # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
+    && apt-get remove -y --purge python3-numpy \
     && python3 -m pip install "numpy<2.0.0" \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph \
-    && python3 -m pip install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
+    && python3 -m pip install umap-learn phate scanpy sctour scSpectra scikit-misc celltypist scikit-learn leidenalg python-igraph \
     # Install conga:
     && mkdir /conga \
     && cd /conga \
