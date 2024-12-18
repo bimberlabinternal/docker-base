@@ -34,7 +34,7 @@ RUN apt-get update -y \
     && Rscript -e "print(version)" \
     # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
     && apt-get remove -y --purge python3-numpy \
-    && python3 -m pip install "numpy<2.0.0" \
+    && python3 -m pip install "numpy<=2.0.1" \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph \
     && python3 -m pip install umap-learn phate scanpy sctour scSpectra scikit-misc celltypist scikit-learn leidenalg python-igraph \
@@ -71,7 +71,10 @@ RUN apt-get update -y \
     # This is to avoid the numba 'cannot cache function' error, such as: https://github.com/numba/numba/issues/5566
     && mkdir /numba_cache && chmod -R 777 /numba_cache \
     && mkdir /mpl_cache && chmod -R 777 /mpl_cache \
-    && mkdir /inkscape && chmod -R 777 /inkscape
+    && mkdir /inkscape && chmod -R 777 /inkscape \
+    # This is debugging related to numpy/pandas incompatibility:
+    && python3 -c "import numpy; print(numpy.__version__)" \
+    && python3 -c "import pandas; print(pandas.__version__)"
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
