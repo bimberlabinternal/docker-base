@@ -57,9 +57,8 @@ RUN apt-get update -y \
     # For SDA, see: https://jmarchini.org/software/
     && wget -O /bin/sda_static_linux https://www.dropbox.com/sh/chek4jkr28qnbrj/AADPy1qQlm3jsHPmPdNsjSx2a/bin/sda_static_linux?dl=1 \
     && chmod +x /bin/sda_static_linux \
+    && pip3 install demuxEM \
     # NOTE: switch back to main GMM_demux repo when this is resolved: https://github.com/CHPGenetics/GMM-Demux/pull/8
-    # NOTE: switch back to main demuxEM repo when this is resolved: https://github.com/lilab-bcb/demuxEM/pull/16
-    && pip3 install git+https://github.com/bbimber/demuxEM.git \
     && pip3 install git+https://github.com/bbimber/GMM-Demux \
     # Clean up:
     && apt-get clean \
