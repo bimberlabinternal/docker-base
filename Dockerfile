@@ -35,6 +35,9 @@ RUN apt-get update -y \
     # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
     && apt-get remove -y --purge python3-numpy \
     && python3 -m pip install "numpy<2.0.0" \
+	# TODO: remove fixed zarr version when anndata/conga support zarr v3: https://github.com/scverse/anndata/issues/1817
+	&& python3 -m pip install --upgrade "zarr<3.0.0" \
+    && python3 -m pip install --upgrade anndata \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph \
     && python3 -m pip install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
