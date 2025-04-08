@@ -33,8 +33,7 @@ RUN apt-get update -y \
     && echo "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true');" >> ~/.Rprofile \
     && Rscript -e "print(version)" \
     # TODO: This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
-    && apt-get remove -y --purge python3-numpy \
-    && python3 -m pip install numpy \
+    && apt-get remove -y --purge python3-numpy python3-pandas \
     ## NOTE: this is due to: https://github.com/zarr-developers/zarr-python/issues/2963 \
     && python3 -m pip install numcodecs==0.15.1 \
     && python3 -m pip install --upgrade anndata \
