@@ -32,11 +32,11 @@ RUN apt-get update -y \
     # NOTE: this was added to avoid the build dying if this downloads a binary built on a later R version
     && echo "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true');" >> ~/.Rprofile \
     && Rscript -e "print(version)" \
-    # TODO: added numpy<2 to side-step a numpy version issue. This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
+    # TODO: This should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
     && apt-get remove -y --purge python3-numpy \
-    && python3 -m pip install "numpy<2.0.0" \
-	# TODO: remove fixed zarr version when anndata/conga support zarr v3: https://github.com/scverse/anndata/issues/1817
-	&& python3 -m pip install --upgrade "zarr<3.0.0" \
+    && python3 -m pip install numpy \
+    ## NOTE: this is due to: https://github.com/zarr-developers/zarr-python/issues/2963 \
+    && python3 -m pip install numcodecs==0.15.1 \
     && python3 -m pip install --upgrade anndata \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph \
