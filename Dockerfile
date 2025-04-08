@@ -35,12 +35,12 @@ RUN apt-get update -y \
     # TODO: This and the separate install line should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
     && apt-get remove -y --purge python3-numpy \
     && python3 -m pip install --upgrade anndata \
-    && python3 -m pip install --upgrade numpy pandas \
     ## NOTE: this is due to: https://github.com/zarr-developers/zarr-python/issues/2963 \
     && python3 -m pip install numcodecs==0.15.1 \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph \
     && python3 -m pip install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
+    && python3 -m pip install --upgrade numpy pandas \
     # Install conga:
     && mkdir /conga \
     && cd /conga \
@@ -48,7 +48,7 @@ RUN apt-get update -y \
     && cd conga/tcrdist_cpp \
     && make \
     && cd ../ \
-    && pip3 install -e . \
+    && python3 -m pip install -e . \
     && cd / \
     ##  Add Bioconductor system dependencies
     && export BC_BRANCH=`echo $R_BIOC_VERSION | sed 's/\./_/'` \
@@ -60,13 +60,13 @@ RUN apt-get update -y \
     # For SDA, see: https://jmarchini.org/software/
     && wget -O /bin/sda_static_linux https://www.dropbox.com/sh/chek4jkr28qnbrj/AADPy1qQlm3jsHPmPdNsjSx2a/bin/sda_static_linux?dl=1 \
     && chmod +x /bin/sda_static_linux \
-    && pip3 install demuxEM \
+    && python3 -m pip install demuxEM \
     # NOTE: switch back to main GMM_demux repo when this is resolved: https://github.com/CHPGenetics/GMM-Demux/pull/8
-    && pip3 install git+https://github.com/bbimber/GMM-Demux \
+    && python3 -m pip install git+https://github.com/bbimber/GMM-Demux \
     # Clean up:
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && pip3 cache purge \
+    && python3 -m pip cache purge \
 	&& rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
     && mkdir /BiocFileCache && chmod 777 /BiocFileCache \
     && mkdir /dockerHomeDir && chmod 777 /dockerHomeDir \
