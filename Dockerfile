@@ -32,8 +32,9 @@ RUN apt-get update -y \
     # NOTE: this was added to avoid the build dying if this downloads a binary built on a later R version
     && echo "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true');" >> ~/.Rprofile \
     && Rscript -e "print(version)" \
-    # TODO: This and the separate install line should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
+    # TODO: This and the install line should be removed eventually. See: https://github.com/numpy/numpy/issues/26710 \
     && apt-get remove -y --purge python3-numpy \
+    && python3 -m pip install --upgrade numpy pandas \
     # TODO: remove fixed zarr version when anndata/conga support zarr v3, including anndata-compat: https://github.com/scverse/anndata/issues/1817
  	&& python3 -m pip install --upgrade "zarr<3.0.0" \
     && python3 -m pip install --upgrade anndata \
