@@ -76,7 +76,9 @@ RUN apt-get update -y \
     && mkdir /inkscape && chmod -R 777 /inkscape \
     # This is debugging related to numpy/pandas incompatibility:
     && python3 -c "import numpy; print(numpy.__version__)" \
-    && python3 -c "import pandas; print(pandas.__version__)"
+    && python3 -c "import pandas; print(pandas.__version__)" \
+    # TODO: remove this when bioc version is fixed. See too many arguments to free issue: https://github.com/lawremi/rtracklayer/issues/141
+    && Rscript -e 'remotes::install_github("lawremi/rtracklayer")'
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
