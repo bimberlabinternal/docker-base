@@ -78,7 +78,9 @@ RUN apt-get update -y \
     && python3 -c "import numpy; print(numpy.__version__)" \
     && python3 -c "import pandas; print(pandas.__version__)" \
     # TODO: remove this when bioc version is fixed. See too many arguments to free issue: https://github.com/lawremi/rtracklayer/issues/141
-    && Rscript -e 'remotes::install_github("lawremi/rtracklayer")'
+    && Rscript -e 'remotes::install_github("lawremi/rtracklayer")' \
+    # NOTE: this package does not install properly through pak:
+    && Rscript -e 'remotes::install_github("bnprks/BPCells/r")'
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
