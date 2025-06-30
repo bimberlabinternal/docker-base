@@ -5,7 +5,9 @@ ARG GH_PAT='NOT_SET'
 
 # NOTE: inkscape and librsvg2-bin installed for CoNGA
 # NOTE: locales / locales-all added due to errors with install_deps() and special characters in the DESCRIPTION file for niaid/dsb
-RUN apt-get update -y \
+RUN \
+    if [ "${GH_PAT}" != 'NOT_SET' ];then echo 'Setting GITHUB_PAT'; export GITHUB_PAT="${GH_PAT}";fi \
+    && apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y \
         libhdf5-dev \
