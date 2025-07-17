@@ -38,11 +38,7 @@ RUN \
     && apt-get remove -y --purge python3-numpy \
     # NOTE: this is done to ensure we have igraph 0.7.0, see: https://github.com/TomKellyGenetics/leiden
     && python3 -m pip uninstall igraph pandas numpy \
-    # TODO: remove fixed zarr version when anndata/conga support zarr v3, including anndata-compat: https://github.com/scverse/anndata/issues/1817
- 	&& python3 -m pip install --upgrade "zarr<3.0.0" anndata \
     && python3 -m pip install umap-learn phate scanpy sctour scikit-misc celltypist scikit-learn leidenalg python-igraph \
-    ## NOTE: numcodecs is due to: https://github.com/zarr-developers/zarr-python/issues/2963 \
-    && python3 -m pip install --upgrade pandas numpy numcodecs==0.15.1 \
     # Install conga:
     && mkdir /conga \
     && cd /conga \
