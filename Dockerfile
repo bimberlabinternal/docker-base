@@ -1,5 +1,5 @@
 FROM rocker/rstudio:latest
-ENV R_BIOC_VERSION=3.20
+ENV R_BIOC_VERSION=3.21
 
 ARG GH_PAT='NOT_SET'
 
@@ -75,8 +75,6 @@ RUN \
     # This is debugging related to numpy/pandas incompatibility:
     && python3 -c "import numpy; print(numpy.__version__)" \
     && python3 -c "import pandas; print(pandas.__version__)" \
-    # TODO: remove this when bioc version is fixed. See too many arguments to free issue: https://github.com/lawremi/rtracklayer/issues/141. The specific commit is needed to avoid the dependency on Seqinfo
-    && Rscript -e 'remotes::install_github("lawremi/rtracklayer", ref = "a4a0093262b6d642905ff63c03b72c4ca33669bd")' \
     # NOTE: this package does not install properly through pak:
     && Rscript -e 'remotes::install_github("bnprks/BPCells/r")'
 
