@@ -76,9 +76,7 @@ RUN \
     && python3 -c "import numpy; print(numpy.__version__)" \
     && python3 -c "import pandas; print(pandas.__version__)" \
     # NOTE: this package does not install properly through pak:
-    && Rscript -e 'remotes::install_github("bnprks/BPCells/r")' \
-    # See: https://github.com/satijalab/seurat/issues/10180#event-3896304469
-    && Rscript -e "devtools::install_github('satijalab/seurat', ref = 'fix/dimplot-data', force = TRUE)"
+    && Rscript -e 'remotes::install_github("bnprks/BPCells/r")'
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
