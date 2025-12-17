@@ -76,7 +76,8 @@ RUN \
     && python3 -c "import numpy; print(numpy.__version__)" \
     && python3 -c "import pandas; print(pandas.__version__)" \
     # NOTE: this package does not install properly through pak:
-    && Rscript -e 'remotes::install_github("bnprks/BPCells/r")'
+    && Rscript -e 'remotes::install_github("bnprks/BPCells/r")' \
+    && Rscript -e 'remotes::install_version("SeuratObject", version = "5.2.0")'
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
