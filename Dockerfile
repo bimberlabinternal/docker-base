@@ -73,10 +73,12 @@ RUN \
     && mkdir /mpl_cache && chmod -R 777 /mpl_cache \
     && mkdir /inkscape && chmod -R 777 /inkscape \
     # This is debugging related to numpy/pandas incompatibility:
-    && python3 -c "import numpy; print(numpy.__version__)" \
-    && python3 -c "import pandas; print(pandas.__version__)" \
+    && python3 -c "import numpy; import importlib.metadata; importlib.metadata.version('numpy')" \
+    && python3 -c "import pandas; import importlib.metadata; importlib.metadata.version('pandas')" \
     # NOTE: this package does not install properly through pak:
-    && Rscript -e 'remotes::install_github("bnprks/BPCells/r")'
+    && Rscript -e 'remotes::install_github("bnprks/BPCells/r")' \
+    # NOTE: this is added to try to address the "Error in `req_perform1(req, req_prep, path = path, handle = handle, resend_count = n)`: unused arguments (req_prep, resend_count = n)"
+    && Rscript -e 'remotes::install_version("httr2", version = "1.2.1")'
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
