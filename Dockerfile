@@ -78,7 +78,7 @@ RUN \
     # NOTE: this package does not install properly through pak:
     && Rscript -e 'remotes::install_github("bnprks/BPCells/r")' \
     # NOTE: this is used to report memory usage in prime-seq, but not a direct dependency:
-    && Rscript -e 'install.packages("pryr")' \
+    && Rscript -e 'install.packages("lobstr")' \
     # NOTE: Added to address httr2 incompatibility. Remove when resolved: https://github.com/saezlab/OmnipathR/issues/124
     && Rscript -e 'remotes::install_github("saezlab/OmnipathR", ref = "devel")'
 
