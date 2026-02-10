@@ -77,8 +77,10 @@ RUN \
     && python3 -c "import pandas; import importlib.metadata; importlib.metadata.version('pandas')" \
     # NOTE: this package does not install properly through pak:
     && Rscript -e 'remotes::install_github("bnprks/BPCells/r")' \
-    # NOTE: this is added to try to address the "Error in `req_perform1(req, req_prep, path = path, handle = handle, resend_count = n)`: unused arguments (req_prep, resend_count = n)"
-    && Rscript -e 'remotes::install_version("httr2", version = "1.2.1")'
+    # NOTE: this is used to report memory usage in prime-seq, but not a direct dependency:
+    && Rscript -e 'install.packages("pryr")' \
+    # NOTE: Added to address httr2 incompatibility. Remove when resolved: https://github.com/saezlab/OmnipathR/issues/124
+    install_github('saezlab/OmnipathR', ref = 'devel')
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
