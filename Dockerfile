@@ -80,7 +80,7 @@ RUN \
     # NOTE: this is used to report memory usage in prime-seq, but not a direct dependency:
     && Rscript -e 'install.packages("pryr")' \
     # NOTE: Added to address httr2 incompatibility. Remove when resolved: https://github.com/saezlab/OmnipathR/issues/124
-    install_github('saezlab/OmnipathR', ref = 'devel')
+    && Rscript -e 'install_github("saezlab/OmnipathR", ref = "devel")'
 
 ENV RETICULATE_PYTHON=/usr/bin/python3
 
