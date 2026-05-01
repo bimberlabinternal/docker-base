@@ -1,5 +1,5 @@
 FROM rocker/rstudio:latest
-ENV R_BIOC_VERSION=3.23
+ENV R_BIOC_VERSION=3.22
 
 ARG GH_PAT='NOT_SET'
 
