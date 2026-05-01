@@ -1,4 +1,4 @@
-FROM rocker/rstudio:latest
+FROM rocker/rstudio:4.5.3
 ENV R_BIOC_VERSION=3.22
 
 ARG GH_PAT='NOT_SET'
@@ -26,8 +26,7 @@ RUN \
         libicu-dev \
         libglpk-dev \
         libbz2-dev \
-	    cargo \
-        g++-14 \
+	    cargo
     # This avoids the 'error: externally-managed-environment' issue
     && rm -Rf /usr/lib/python3.12/EXTERNALLY-MANAGED \
     && Rscript -e "install.packages(c('remotes', 'devtools', 'BiocManager', 'pryr', 'rmdformats', 'knitr', 'logger', 'Matrix'), dependencies=TRUE, ask = FALSE, upgrade = 'always')" \
